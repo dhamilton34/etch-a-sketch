@@ -81,7 +81,8 @@
             min+=2;
             createBoard(min);
             sizeCheck();
-            colorSquares();
+            //greyScale();
+            raindbowColor();
             
         });
         
@@ -89,7 +90,8 @@
             min-=2;
             createBoard(min);
             sizeCheck();
-            colorSquares();
+            //greyScale();
+            raindbowColor();
         });
         
         picker.addEventListener('click', () => {
@@ -100,19 +102,71 @@
         clear.addEventListener('click', () => {
             
             createBoard(min);
+            //greyScale();
+            raindbowColor();
         });
 
-        function colorSquares() {
+        function greyScale() {
             const squares = document.querySelectorAll(".game-sq");
-            squares.forEach((div) => {
-                div.addEventListener('mouseover', () => {
+                squares.forEach((div) => { 
+                    let alpha = 0.1;
+                        
+                    div.addEventListener('mouseover', () => {
                 
-                div.style.backgroundColor = "blue";
+                        div.style.backgroundColor = 'rgba(0,0,0,'+alpha+')';
+                        alpha+=0.2;
                 });
             });
         }
-        colorSquares();
-        
+
+        function selectColor() {
+            const squares = document.querySelectorAll(".game-sq");
+                squares.forEach((div) => { 
+                    let alpha = 0.1;
+                        
+                    div.addEventListener('mouseover', () => {
+                
+                        div.style.backgroundColor = 'rgba(0,0,0,'+alpha+')';
+                        alpha+=0.2;
+                });
+            });
+        }
+
+        //Uses sine waves to create a color
+        function raindbowColor() {
+            
+            function RGB2Color(r,g,b) {
+                return '(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
+            }
+
+            const squares = document.querySelectorAll(".game-sq");
+            let i = 0;
+
+            squares.forEach((div) => { 
+                let alpha = 0.1;
+                let freq = 0.3;
+                //let freq = 2*Math.PI/6
+                
+                
+                    
+                div.addEventListener('mouseover', () => {
+                    let red = Math.sin(freq*i + 0) * 127 + 128;
+                    let green = Math.sin(freq*i + 2) * 127 + 128;
+                    let blue = Math.sin(freq*i + 4) * 127 + 128;
+                    let color = RGB2Color(red,blue,green);
+                    div.style.backgroundColor = 'rgb' + color;
+                    //console.log(color);
+                    console.log(i);
+                    i+=1;
+                });
+            });
+        }   
+
+        function selectColor() {
+
+        }
+        //greyScale();
+        raindbowColor();
 
     </script>
 </body>

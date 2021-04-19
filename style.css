@@ -110,6 +110,6 @@ body {
 
 .game-sq {
     border: 1px solid black; 
-    color: blue; 
+    background-color: rgba(0,0,0,0);
     
 }
