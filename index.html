@@ -11,10 +11,18 @@
 <body>
     <header class="header">
         <div class="header-bar">
-
+            <h3>
+                Etch-a-Sketch
+            </h3>
         </div>
     </header>
     <section class="main">
+        <div class="button-bar">
+            <button class="btn" id="bigger">BIGGER</button>
+            <button class="btn" id="smaller">SMALLER</button>
+            <button class="btn" id="picker">COLOR PICKER</button>
+            <button class="btn" id="clear">CLEAR</button>
+        </div>
         <div class="container" id="container">
            
         </div>
@@ -22,16 +30,21 @@
 
     <script>
         const board = document.querySelector(".container");
-  
-        function createDiv(num) {    
+        
+        let min = 2;
+
+        function createBoard(num) {    
+
+            //clear the game board
+            board.innerHTML = "";
            
-            //const col = Math.sqrt(num);
+            //Sets the number of rows+columns
             board.style.gridTemplateColumns = "repeat(" + num + ", 1fr)";
        
+            //Squares the number of rows+columns for total number of squares
             const numSq = num**2;
-            console.log(numSq);
-            //test
 
+            //Loops through appending squares to container div
             for(let i=0; i<numSq; i++) {
 
                 const newDiv = document.createElement('div');
@@ -41,6 +54,44 @@
             }
             
         }
+        createBoard(min);
+
+        const bigger = document.querySelector("#bigger");
+        const smaller = document.querySelector("#smaller");
+        const picker = document.querySelector("#picker");
+        const clear = document.querySelector("#clear");
+        smaller.disabled = true;
+        
+        function sizeCheck() {
+            if(min < 4) {
+            smaller.disabled = true;
+            } else {
+            smaller.disabled = false;
+            }
+    
+        }
+
+        bigger.addEventListener('click', () => {
+            min+=2;
+            createBoard(min);
+            sizeCheck();
+            
+        });
+        smaller.addEventListener('click', () => {
+            min-=2;
+            createBoard(min);
+            sizeCheck();
+        });
+        picker.addEventListener('click', () => {
+              
+            console.log(picker.id);
+        });
+        clear.addEventListener('click', () => {
+            createBoard(2);
+            smaller.disabled=true;
+        });
+
+        
 
     </script>
 </body>

@@ -51,20 +51,60 @@ table {
 }
 
 /*** MAIN STYLE ***/
+body {
+    background-color: silver;
+}
+
 .header-bar {
     background-color: black;
     width: 100%;
     height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.header h3 {
+    color: white;
+    font-size: 4em;
+    font-family: Frijole;
+}
+
+.button-bar {
+    position: relative;
+    width: 600px;
+    height: 100px;
+    background-color: white;
+    margin: 0 auto;
+    margin-top: 25px;
+    border: 5px solid black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.btn {
+    width: 20%;
+    height: 75%;
+    font-family: Oswald;
+    font-size: 1.3em;
+    border: 1px solid black;
+}
+
+#clear {
+    background-color: lightcoral;
 }
 
 .container {
-    width: 800px;
-    height: 800px;
+    width: 600px;
+    height: 600px;
     border: 5px solid black;
     position: relative;
     margin: 0 auto;
-    margin-top: 150px;
+    margin-top: 25px;
     display: grid;
+    background-color: white;
+    grid-template-columns: repeat(2, 1fr);
   
 }
 
