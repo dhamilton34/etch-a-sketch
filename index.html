@@ -62,6 +62,7 @@
         const clear = document.querySelector("#clear");
         smaller.disabled = true;
         
+        //Checks for the current board size and disables buttons if at min or max size
         function sizeCheck() {
             if(min < 4) {
             smaller.disabled = true;
