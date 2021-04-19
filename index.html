@@ -69,29 +69,49 @@
             } else {
             smaller.disabled = false;
             }
-    
+
+            if(min > 62) {
+                bigger.disabled = true;
+            } else {
+                bigger.disabled = false;
+            }
         }
 
         bigger.addEventListener('click', () => {
             min+=2;
             createBoard(min);
             sizeCheck();
+            colorSquares();
             
         });
+        
         smaller.addEventListener('click', () => {
             min-=2;
             createBoard(min);
             sizeCheck();
+            colorSquares();
         });
+        
         picker.addEventListener('click', () => {
               
             console.log(picker.id);
         });
+        
         clear.addEventListener('click', () => {
-            createBoard(2);
-            smaller.disabled=true;
+            
+            createBoard(min);
         });
 
+        function colorSquares() {
+            const squares = document.querySelectorAll(".game-sq");
+            squares.forEach((div) => {
+                div.addEventListener('mouseover', () => {
+                
+                div.style.backgroundColor = "blue";
+                });
+            });
+        }
+        colorSquares();
         
 
     </script>
