@@ -22,6 +22,11 @@
             <button class="btn" id="smaller">SMALLER</button>
             <button class="btn" id="picker">COLOR PICKER</button>
             <button class="btn" id="clear">CLEAR</button>
+
+            <button class="btn disabled">GREY SCALE</button>
+            <button class="btn disabled">RAINBOW</button>
+            <button class="btn disabled" id=""><input type="color"></button>
+            <button class="btn disabled" id="exit">EXIT</button>
         </div>
         <div class="container" id="container">
            
@@ -32,6 +37,10 @@
         const board = document.querySelector(".container");
         
         let min = 2;
+
+        function toggleButtons() {
+            
+        }
 
         function createBoard(num) {    
 
@@ -77,35 +86,42 @@
             }
         }
 
+        //Bigger Button Function - increases board rows+columns by 2
         bigger.addEventListener('click', () => {
             min+=2;
             createBoard(min);
             sizeCheck();
             //greyScale();
-            raindbowColor();
-            
+            //raindbowColor();
+            userColor();  
         });
         
+        //Smaller Button Function - decreases board rows+columns by 2
         smaller.addEventListener('click', () => {
             min-=2;
             createBoard(min);
             sizeCheck();
             //greyScale();
-            raindbowColor();
+            //raindbowColor();
+            userColor();
         });
         
+
         picker.addEventListener('click', () => {
               
             console.log(picker.id);
         });
         
+        //Clear Button Function - Redraws board to clear it
         clear.addEventListener('click', () => {
             
             createBoard(min);
             //greyScale();
-            raindbowColor();
+            //raindbowColor();
+            userColor();
         });
 
+        //Loops through squares, adding eventListeners, increases the alpha of the bg color on each successive mouseover
         function greyScale() {
             const squares = document.querySelectorAll(".game-sq");
                 squares.forEach((div) => { 
@@ -114,12 +130,15 @@
                     div.addEventListener('mouseover', () => {
                 
                         div.style.backgroundColor = 'rgba(0,0,0,'+alpha+')';
-                        alpha+=0.2;
+                        if(alpha < 0.8) {
+                            alpha+=0.2;
+                        } 
                 });
             });
         }
 
-        function selectColor() {
+        //Loops through squares, adding eventListeners, changes mouseover bg-color to user selected color
+        function userColor() {
             const squares = document.querySelectorAll(".game-sq");
                 squares.forEach((div) => { 
                     let alpha = 0.1;
@@ -127,27 +146,30 @@
                     div.addEventListener('mouseover', () => {
                 
                         div.style.backgroundColor = 'rgba(0,0,0,'+alpha+')';
-                        alpha+=0.2;
+                        if(alpha < 0.8) {
+                            alpha+=0.2;
+                        }
                 });
             });
         }
 
-        //Uses sine waves to create a color
+        //Uses sine waves to create rainbow colors
         function raindbowColor() {
             
+            //rounds the caluclated sine numbers and returns an rgb() code
             function RGB2Color(r,g,b) {
                 return '(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
             }
 
             const squares = document.querySelectorAll(".game-sq");
             let i = 0;
-
+            
+            //Loops through each square, adds an eventListener, assigns RGB values with phased sine waves
             squares.forEach((div) => { 
                 let alpha = 0.1;
                 let freq = 0.5;
-                //let freq = 2*Math.PI/6
+                //let freq = 2*Math.PI/12
                 let i = 0;
-                
                     
                 div.addEventListener('mouseover', () => {
                     let red = Math.sin(freq*i + 0) * 127 + 128;
@@ -155,18 +177,19 @@
                     let blue = Math.sin(freq*i + 4) * 127 + 128;
                     let color = RGB2Color(red,blue,green);
                     div.style.backgroundColor = 'rgb' + color;
-                    //console.log(color);
                     console.log(i);
                     i+=1;
                 });
             });
         }   
 
+        //Selects the proper color function based on user input 
         function selectColor() {
 
         }
         //greyScale();
-        raindbowColor();
+        //raindbowColor();
+        userColor();
 
     </script>
 </body>
