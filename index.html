@@ -17,16 +17,17 @@
         </div>
     </header>
     <section class="main">
-        <div class="button-bar">
+        <div class="button-bar" id="main-bar">
             <button class="btn" id="bigger">BIGGER</button>
             <button class="btn" id="smaller">SMALLER</button>
             <button class="btn" id="picker">COLOR PICKER</button>
             <button class="btn" id="clear">CLEAR</button>
-
-            <button class="btn disabled">GREY SCALE</button>
-            <button class="btn disabled">RAINBOW</button>
-            <button class="btn disabled" id=""><input type="color"></button>
-            <button class="btn disabled" id="exit">EXIT</button>
+        </div>
+        <div class="button-bar disabled" id="color-bar">
+            <button class="btn" id="grey-scale">GREY SCALE</button>
+            <button class="btn" id="rainbow">RAINBOW</button>
+            <button class="btn" id="color"><input type="color"></button>
+            <button class="btn" id="exit">EXIT</button>
         </div>
         <div class="container" id="container">
            
@@ -38,7 +39,17 @@
         
         let min = 2;
 
-        function toggleButtons() {
+        function toggleButtons(id) {
+           
+          const elem = document.querySelector(id);
+          const check = elem.classList.contains("disabled");
+            console.log(check);
+          console.log(elem);
+          if(check === true) {
+              elem.style.display = "block";
+          } else {
+              elem.style.display = "none";
+          }
             
         }
 
@@ -108,8 +119,10 @@
         
 
         picker.addEventListener('click', () => {
-              
-            console.log(picker.id);
+            toggleButtons("#color-bar");
+            toggleButtons("#main-bar");
+          
+            //console.log(picker.id);
         });
         
         //Clear Button Function - Redraws board to clear it
@@ -119,6 +132,13 @@
             //greyScale();
             //raindbowColor();
             userColor();
+        });
+
+        exit.addEventListener('click', () => {
+            toggleButtons("#color-bar");
+            toggleButtons("#main-bar");
+          
+            console.log(picker.id);
         });
 
         //Loops through squares, adding eventListeners, increases the alpha of the bg color on each successive mouseover
