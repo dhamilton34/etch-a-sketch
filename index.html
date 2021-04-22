@@ -17,17 +17,17 @@
         </div>
     </header>
     <section class="main">
-        <div class="button-bar" id="main-bar">
+        <div class="button-bar" id="mainBar">
             <button class="btn" id="bigger">BIGGER</button>
             <button class="btn" id="smaller">SMALLER</button>
-            <button class="btn" id="picker">COLOR PICKER</button>
+            <button class="btn" id="picker">COLOR <br> PICKER</button>
             <button class="btn" id="clear">CLEAR</button>
         </div>
-        <div class="button-bar disabled" id="color-bar">
-            <button class="btn" id="grey-scale">GREY SCALE</button>
+        <div class="button-bar disabled" id="colorBar">
+            <button class="btn" id="grey">GREY SCALE</button>
             <button class="btn" id="rainbow">RAINBOW</button>
-            <button class="btn" id="color"><input type="color"></button>
-            <button class="btn" id="exit">EXIT</button>
+            <button class="btn"><input type="color" id="color"></button>
+            <button class="btn" id="back">BACK</button>
         </div>
         <div class="container" id="container">
            
@@ -36,22 +36,24 @@
 
     <script>
         const board = document.querySelector(".container");
+        //Apparently I don't need to define these. As long as the id exactly matches it works. 
+        //Is defining them best practice?
+
+       /* const bigger = document.querySelector("#bigger");
+        const smaller = document.querySelector("#smaller");
+        const picker = document.querySelector("#picker");
+        const clear = document.querySelector("#clear");
+
+        const grey = document.querySelector("#grey-scale");
+        const rainbow = document.querySelector("#rainbow");
+        const color = document.querySelector("#color");
+        const exit = document.querySelector("#exit");
+
+        const mainBar = document.querySelector("#main-bar");
+        const colorBar = document.querySelector("#color-bar");*/
         
         let min = 2;
-
-        function toggleButtons(id) {
-           
-          const elem = document.querySelector(id);
-          const check = elem.classList.contains("disabled");
-            console.log(check);
-          console.log(elem);
-          if(check === true) {
-              elem.style.display = "block";
-          } else {
-              elem.style.display = "none";
-          }
-            
-        }
+        smaller.disabled = true;
 
         function createBoard(num) {    
 
@@ -72,18 +74,8 @@
                 newDiv.className = 'game-sq';
                 board.appendChild(newDiv);
             }
-            
-        }
-        createBoard(min);
 
-        const bigger = document.querySelector("#bigger");
-        const smaller = document.querySelector("#smaller");
-        const picker = document.querySelector("#picker");
-        const clear = document.querySelector("#clear");
-        smaller.disabled = true;
-        
-        //Checks for the current board size and disables buttons if at min or max size
-        function sizeCheck() {
+            //Disables the smaller button if too small and disables the bigger button if too big
             if(min < 4) {
             smaller.disabled = true;
             } else {
@@ -94,54 +86,64 @@
                 bigger.disabled = true;
             } else {
                 bigger.disabled = false;
-            }
+            } 
+            
+            selectColor();
         }
-
-        //Bigger Button Function - increases board rows+columns by 2
+        createBoard(min);
+        
+        //MAIN BAR BUTTON FUNCTIONS
+        ////Bigger Button Function - increases board rows+columns by 2
         bigger.addEventListener('click', () => {
             min+=2;
             createBoard(min);
-            sizeCheck();
-            //greyScale();
-            //raindbowColor();
-            userColor();  
+            //selectColor(); 
         });
         
-        //Smaller Button Function - decreases board rows+columns by 2
+        ////Smaller Button Function - decreases board rows+columns by 2
         smaller.addEventListener('click', () => {
             min-=2;
             createBoard(min);
-            sizeCheck();
-            //greyScale();
-            //raindbowColor();
-            userColor();
+            //selectColor(); 
         });
-        
 
+        ////Color Pick Button Function - disables Main Bar and enables Color Bar
         picker.addEventListener('click', () => {
-            toggleButtons("#color-bar");
-            toggleButtons("#main-bar");
-          
-            //console.log(picker.id);
+            mainBar.classList.toggle("disabled");
+            colorBar.classList.toggle("disabled");
         });
         
-        //Clear Button Function - Redraws board to clear it
+        /////Clear Button Function - Redraws board to clear it
         clear.addEventListener('click', () => {
-            
             createBoard(min);
-            //greyScale();
-            //raindbowColor();
-            userColor();
+            //selectColor(); 
         });
 
-        exit.addEventListener('click', () => {
-            toggleButtons("#color-bar");
-            toggleButtons("#main-bar");
-          
-            console.log(picker.id);
+        //COLOR BAR BUTTON FUNCTIONS
+
+        ////Grey-Scale Color Button - Changes to grey scale color palette
+        grey.addEventListener('click', () => {
+            selectColor("grey");
         });
 
-        //Loops through squares, adding eventListeners, increases the alpha of the bg color on each successive mouseover
+        ////Rainbow Color Button - Changes to rainbow color palette
+        rainbow.addEventListener('click', () => {
+            selectColor("rainbow");
+        });
+
+        ////User Defined Color Button - Changes to rainbow color palette
+        color.addEventListener('change', () => {
+            selectColor("color");
+        });
+
+        ////Back Button - Returns to Main Bar
+        back.addEventListener('click', () => {
+            mainBar.classList.toggle("disabled");
+            colorBar.classList.toggle("disabled");
+        });
+
+        //COLOR PALETTE FUNCTIONS
+        ////Loops through squares, adding eventListeners, increases the alpha of the bg color on each successive mouseover
         function greyScale() {
             const squares = document.querySelectorAll(".game-sq");
                 squares.forEach((div) => { 
@@ -157,25 +159,22 @@
             });
         }
 
-        //Loops through squares, adding eventListeners, changes mouseover bg-color to user selected color
+        ////Loops through squares, adding eventListeners, changes mouseover bg-color to user selected color
         function userColor() {
             const squares = document.querySelectorAll(".game-sq");
+            const value = document.querySelector("#color").value;
                 squares.forEach((div) => { 
-                    let alpha = 0.1;
-                        
+                    
                     div.addEventListener('mouseover', () => {
-                
-                        div.style.backgroundColor = 'rgba(0,0,0,'+alpha+')';
-                        if(alpha < 0.8) {
-                            alpha+=0.2;
-                        }
+                        
+                        div.style.backgroundColor = value;
                 });
             });
         }
 
-        //Uses sine waves to create rainbow colors
-        function raindbowColor() {
-            
+        ////Uses sine waves to create rainbow colors
+        function rainbowColor() {
+
             //rounds the caluclated sine numbers and returns an rgb() code
             function RGB2Color(r,g,b) {
                 return '(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
@@ -197,19 +196,27 @@
                     let blue = Math.sin(freq*i + 4) * 127 + 128;
                     let color = RGB2Color(red,blue,green);
                     div.style.backgroundColor = 'rgb' + color;
-                    console.log(i);
                     i+=1;
                 });
             });
         }   
 
         //Selects the proper color function based on user input 
-        function selectColor() {
+        function selectColor(input) {
+            
+
+            if(input == "color") {
+                userColor();
+            } else if(input == "rainbow") {
+                rainbowColor();
+            } else {
+                greyScale();
+            }
 
         }
         //greyScale();
         //raindbowColor();
-        userColor();
+        selectColor();
 
     </script>
 </body>

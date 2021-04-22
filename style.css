@@ -91,7 +91,16 @@ body {
     border: 1px solid black;
 }
 
-#clear, #exit {
+.btn:hover {
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    box-shadow: inset 1px 1px black;
+    
+}
+
+
+#clear, #back {
     background-color: lightcoral;
 }
 
