@@ -86,7 +86,8 @@ html, body {
     display: flex;
     justify-content: space-around;
     align-items: center;  
-    width: 60vmin;
+    width: 65vmin;
+ 
 }
 
 .btn {
@@ -113,8 +114,8 @@ html, body {
     position: relative;
     margin: 0 auto;
     margin-top: 5vmin;
-    width: 60vmin;
-    height: 60vmin;
+    width: 65vmin;
+    height: 65vmin;
     border: 5px solid black;
     display: grid;
     background-color: white;
